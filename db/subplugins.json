@@ -1,0 +1,8 @@
+{
+    "subplugintypes": {
+        "alerthubchannel": "channel"
+    },
+    "plugintypes": {
+        "alerthubchannel": "local/alerthub/channel"
+    }
+}

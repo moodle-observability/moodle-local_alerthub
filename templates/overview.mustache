@@ -1,0 +1,84 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alerthub/overview
+
+    Overview and diagnostics of the hub.
+
+    Example context (json):
+    {
+        "noemailever": true, "active": 3, "channels": 1, "rules": 2,
+        "hasprocessors": true, "processors": ["Web", "Email"],
+        "providers": [{"name": "Critical alerts", "processors": [{"name": "Web", "on": true, "locked": false}]}],
+        "counts": [{"name": "Pending", "count": 0}],
+        "hasfailures": true, "failures": [{"time": "24 November 2026", "error": "No recipient"}],
+        "notificationsurl": "#", "channelsurl": "#", "addchannelurl": "#", "rulesurl": "#", "alertsurl": "#",
+        "nochannels": true
+    }
+}}
+<div class="local_alerthub-overview">
+    {{#noemailever}}
+    <div class="alert alert-warning">{{#str}} noemailever, local_alerthub {{/str}}</div>
+    {{/noemailever}}
+    {{#nochannels}}
+    <div class="alert alert-info">
+        <p class="mb-2">{{#str}} gettingstarted, local_alerthub {{/str}}</p>
+        <a class="btn btn-primary" href="{{addchannelurl}}">{{#str}} addchannel, local_alerthub {{/str}}</a>
+    </div>
+    {{/nochannels}}
+    <p>
+        <a class="btn btn-secondary me-2" href="{{channelsurl}}">{{#str}} channels, local_alerthub {{/str}}</a>
+        <a class="btn btn-secondary me-2" href="{{rulesurl}}">{{#str}} rules, local_alerthub {{/str}}</a>
+        <a class="btn btn-secondary" href="{{alertsurl}}">{{#str}} alerts, local_alerthub {{/str}}</a>
+    </p>
+    <ul class="list-inline">
+        <li class="list-inline-item"><span class="badge text-bg-danger bg-danger">{{#str}} activealerts, local_alerthub, {{active}} {{/str}}</span></li>
+        <li class="list-inline-item"><span class="badge text-bg-light bg-light text-dark">{{#str}} activechannels, local_alerthub, {{channels}} {{/str}}</span></li>
+        <li class="list-inline-item"><span class="badge text-bg-light bg-light text-dark">{{#str}} activerules, local_alerthub, {{rules}} {{/str}}</span></li>
+        {{#counts}}<li class="list-inline-item"><span class="badge text-bg-light bg-light text-dark">{{name}}: {{count}}</span></li>{{/counts}}
+    </ul>
+
+    <h3 class="h5">{{#str}} processorsperprovider, local_alerthub {{/str}}</h3>
+    <p class="text-muted">{{#str}} processorsperprovider_desc, local_alerthub {{/str}} <a href="{{notificationsurl}}">{{#str}} notificationsettings, local_alerthub {{/str}}</a></p>
+    <table class="table table-sm generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}} provider, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} processors, local_alerthub {{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#providers}}
+            <tr>
+                <td>{{name}}</td>
+                <td>
+                    {{#processors}}
+                    <span class="badge {{#on}}text-bg-success bg-success{{/on}}{{^on}}text-bg-light bg-light text-dark{{/on}}">{{name}}{{#locked}} 🔒{{/locked}}</span>
+                    {{/processors}}
+                </td>
+            </tr>
+            {{/providers}}
+        </tbody>
+    </table>
+
+    {{#hasfailures}}
+    <h3 class="h5">{{#str}} recentfailures, local_alerthub {{/str}}</h3>
+    <ul>
+        {{#failures}}<li><span class="text-muted">{{time}}</span> {{error}}</li>{{/failures}}
+    </ul>
+    {{/hasfailures}}
+</div>

@@ -1,0 +1,62 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alerthub/alerts
+
+    Alerts received by the hub.
+
+    Example context (json):
+    {
+        "raised": true, "raisedurl": "#", "resolvedurl": "#", "hasalerts": true,
+        "alerts": [{"severity": "Warning", "warning": true, "critical": false, "title": "Video private",
+            "body": "Course X", "source": "tool_extdeps", "category": "externaldependency", "occurrences": 2,
+            "since": "23 November 2026", "last": "24 November 2026", "url": "#"}]
+    }
+}}
+<div class="local_alerthub-alerts">
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item"><a class="nav-link {{#raised}}active{{/raised}}" href="{{raisedurl}}">{{#str}} state_raised, local_alerthub {{/str}}</a></li>
+        <li class="nav-item"><a class="nav-link {{^raised}}active{{/raised}}" href="{{resolvedurl}}">{{#str}} state_resolved, local_alerthub {{/str}}</a></li>
+    </ul>
+    {{#hasalerts}}
+    <table class="table table-sm generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}} severity, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} alert, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} source, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} occurrences, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} since, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} last, local_alerthub {{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#alerts}}
+            <tr>
+                <td><span class="badge {{#critical}}text-bg-danger bg-danger{{/critical}}{{#warning}}text-bg-warning bg-warning text-dark{{/warning}}{{^critical}}{{^warning}}text-bg-info bg-info{{/warning}}{{/critical}}">{{severity}}</span></td>
+                <td>{{#url}}<a href="{{url}}">{{title}}</a>{{/url}}{{^url}}{{title}}{{/url}}<div class="small text-muted">{{body}}</div></td>
+                <td>{{source}}<div class="small text-muted">{{category}}</div></td>
+                <td>{{occurrences}}</td>
+                <td>{{since}}</td>
+                <td>{{last}}</td>
+            </tr>
+            {{/alerts}}
+        </tbody>
+    </table>
+    {{/hasalerts}}
+    {{^hasalerts}}<p class="text-muted">{{#str}} noalerts, local_alerthub {{/str}}</p>{{/hasalerts}}
+</div>

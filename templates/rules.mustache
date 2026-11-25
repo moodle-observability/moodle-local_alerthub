@@ -1,0 +1,65 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alerthub/rules
+
+    Rules of the hub.
+
+    Example context (json):
+    {
+        "addurl": "#", "hasrules": true,
+        "rules": [{"name": "Broken videos", "channel": "Team", "source": "tool_extdeps", "category": "Any",
+            "minseverity": "Warning", "mode": "Daily digest", "enabled": true, "editurl": "#", "deleteurl": "#"}]
+    }
+}}
+<div class="local_alerthub-rules">
+    <p><a class="btn btn-primary" href="{{addurl}}">{{#str}} addrule, local_alerthub {{/str}}</a></p>
+    {{#hasrules}}
+    <table class="table table-sm generaltable">
+        <thead>
+            <tr>
+                <th scope="col">{{#str}} name {{/str}}</th>
+                <th scope="col">{{#str}} channel, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} source, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} category, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} minseverity, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} mode, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} enabled, local_alerthub {{/str}}</th>
+                <th scope="col">{{#str}} actions {{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#rules}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{channel}}</td>
+                <td>{{source}}</td>
+                <td>{{category}}</td>
+                <td>{{minseverity}}</td>
+                <td>{{mode}}</td>
+                <td>{{#enabled}}{{#str}} yes {{/str}}{{/enabled}}{{^enabled}}{{#str}} no {{/str}}{{/enabled}}</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{editurl}}">{{#str}} edit {{/str}}</a>
+                    <a class="btn btn-sm btn-outline-danger" href="{{deleteurl}}">{{#str}} delete {{/str}}</a>
+                </td>
+            </tr>
+            {{/rules}}
+        </tbody>
+    </table>
+    {{/hasrules}}
+    {{^hasrules}}<p class="text-muted">{{#str}} norules, local_alerthub {{/str}}</p>{{/hasrules}}
+</div>
